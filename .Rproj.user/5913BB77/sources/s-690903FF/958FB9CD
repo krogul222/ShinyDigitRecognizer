@@ -1,0 +1,23 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1533939041648.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "958FB9CD",
+    "lastKnownWriteTime" : 1533939628,
+    "last_content_update" : 1533939628548,
+    "path" : "~/Documents/Data Science Projects/R/Shiny Digit Recognizer/Shiny Digit Recognizer/run.R",
+    "project_path" : "run.R",
+    "properties" : {
+        "cursorPosition" : "8,1",
+        "scrollLine" : "0",
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 4,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1533928605302.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "6B42EF80",
+    "lastKnownWriteTime" : 1533928076,
+    "last_content_update" : 1533928076,
+    "path" : "~/Documents/Data Science Projects/R/Digit Recognizer/DataRecognizer.R",
+    "project_path" : null,
+    "properties" : {
+        "cursorPosition" : "136,15",
+        "scrollLine" : "131"
+    },
+    "relative_order" : 3,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
