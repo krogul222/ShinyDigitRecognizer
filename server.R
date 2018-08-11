@@ -34,7 +34,6 @@ server <- function(input, output, session) {
        
     if (length(input$upload$datapath))
       image <- image_read(input$upload$datapath)
-    image_data(image)
     
     output$img1 <- renderImage({
       tmpfile <- image %>%
@@ -44,41 +43,41 @@ server <- function(input, output, session) {
       list(src = tmpfile, contentType = "image/jpeg")
     })
     
-    output$img2 <- renderImage({
+   # output$img2 <- renderImage({
       # Numeric operators
-      tmpfile <- image %>%
-        image_resize("28x28!") %>%
-        image_resize( geometry_size_pixels(200)) %>%
-        image_write(tempfile(fileext='jpg'), format = 'jpg')
+    #  tmpfile <- image %>%
+     #   image_resize("28x28!") %>%
+      #  image_resize( geometry_size_pixels(200)) %>%
+       # image_write(tempfile(fileext='jpg'), format = 'jpg')
       
       # Return a list
-      list(src = tmpfile, contentType = "image/jpeg")
-    })
+      #list(src = tmpfile, contentType = "image/jpeg")
+  #  })
     
-    output$img3 <- renderImage({
+  #  output$img3 <- renderImage({
       # Numeric operators
-      tmpfile <- image %>%
-        image_resize("28x28!") %>%
-        image_resize( geometry_size_pixels(200)) %>%
-        image_convert(type = 'grayscale') %>%
-        image_write(tempfile(fileext='jpg'), format = 'jpg')
+  #    tmpfile <- image %>%
+    #    image_resize("28x28!") %>%
+    #    image_resize( geometry_size_pixels(200)) %>%
+    #    image_convert(type = 'grayscale') %>%
+    #    image_write(tempfile(fileext='jpg'), format = 'jpg')
       
       # Return a list
-      list(src = tmpfile, contentType = "image/jpeg")
-    })
+     # list(src = tmpfile, contentType = "image/jpeg")
+  #  })
     
-    output$img4 <- renderImage({
+  #  output$img4 <- renderImage({
       # Numeric operators
-      tmpfile <- image %>%
-        image_resize("28x28!") %>%
-        image_resize( geometry_size_pixels(200)) %>%
-        image_convert(type = 'grayscale') %>%
-        image_negate() %>%
-        image_write(tempfile(fileext='jpg'), format = 'jpg')
+   #   tmpfile <- image %>%
+    #    image_resize("28x28!") %>%
+     #   image_resize( geometry_size_pixels(200)) %>%
+      #  image_convert(type = 'grayscale') %>%
+       # image_negate() %>%
+        #image_write(tempfile(fileext='jpg'), format = 'jpg')
       
       # Return a list
-      list(src = tmpfile, contentType = "image/jpeg")
-    })
+     # list(src = tmpfile, contentType = "image/jpeg")
+    #})
     
     imgAnalysis <<- image %>% 
     image_resize( "28x28!") %>%
