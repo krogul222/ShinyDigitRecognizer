@@ -4,7 +4,7 @@ server <- function(input, output, session) {
   library(magick)
   library(broman)
   library(keras)
-  library(tools)
+#  library(tools)
 
   model <- load_model_hdf5('digitrecognizer30epochs.h5')
   
