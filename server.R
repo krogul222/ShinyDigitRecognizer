@@ -6,7 +6,7 @@ server <- function(input, output, session) {
   library(keras)
   library(tools)
 
-  model <- load_model_hdf5('my_model.h5')
+  model <- load_model_hdf5('digitrecognizer30epochs.h5')
   
   observeEvent(input$button, {
     if(length(imgAnalysis) == 784){
@@ -27,12 +27,6 @@ server <- function(input, output, session) {
     if (is.null(File))
      return(NULL)
     
-#    validate(
-#      need(file_ext(File$name) %in% c(
-#        'image/png', 
-#        'image/jpeg'
-#      ), "Wrong File Format try again!"))
- 
     output$Original <- renderText("Original")
     output$Phase1 <- renderText("Phase 1")
     output$Phase2 <- renderText("Phase 2")
@@ -96,6 +90,5 @@ server <- function(input, output, session) {
     dim(imgAnalysis) <<- c(1, 28, 28, 1)
     
     output$Predicted <- renderText("")  
-    #res <- model %>% predict_classes(imgAnalysis,batch_size=1)
   })
 }
