@@ -11,6 +11,24 @@ ui <- fluidPage(
         column(12, align="center",
       actionButton("button", "Predict")
       )),
+      tags$head(
+        HTML(
+          "
+          <script>
+          var socket_timeout_interval
+          var n = 0
+          $(document).on('shiny:connected', function(event) {
+          socket_timeout_interval = setInterval(function(){
+          Shiny.onInputChange('count', n++)
+          }, 15000)
+          });
+          $(document).on('shiny:disconnected', function(event) {
+          clearInterval(socket_timeout_interval)
+          });
+          </script>
+          "
+        )
+      ),
       fluidRow(
         column(width = 6, offset = 0, style='padding:10px;')
       ),
@@ -35,7 +53,8 @@ ui <- fluidPage(
             #button{
             display: inline-block;
             text-align: center;
-            }"))
+            }")),
+      textOutput("keepAlive")
       )
       )
       

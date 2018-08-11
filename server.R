@@ -5,6 +5,10 @@ server <- function(input, output, session) {
   library(broman)
   library(keras)
 #  library(tools)
+  output$keepAlive <- renderText({
+    req(input$count)
+    paste("keep alive ", input$count)
+  })
 
   model <- load_model_hdf5('digitrecognizer30epochs.h5')
   
