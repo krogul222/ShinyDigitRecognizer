@@ -1,4 +1,5 @@
 imgAnalysis <- 1
+dataLoaded <- 0
 
 server <- function(input, output, session) {
   library(magick)
@@ -6,14 +7,14 @@ server <- function(input, output, session) {
   library(keras)
 #  library(tools)
   output$keepAlive <- renderText({
-    req(input$count)
-    paste("keep alive ", input$count)
+    #req(input$count)
+    #paste("keep alive ", input$count)
   })
 
   model <- load_model_hdf5('digitrecognizer30epochs.h5')
   
   observeEvent(input$button, {
-    if(length(imgAnalysis) == 784){
+    if(dataLoaded == 1){
       res <- model %>% predict_classes(imgAnalysis,batch_size=1)
       output$PredictedLabel <- renderText("Prediction")
       output$Predicted <- renderText(res)   
@@ -22,23 +23,31 @@ server <- function(input, output, session) {
     }
   })
 
-  observeEvent(input$upload, {
+  observeEvent(input$loadImage, {
     
     #assign uploaded file to a variable
-    File <- input$upload   
+  #  File <- input$imageLink   
     
     #catches null exception
-    if (is.null(File))
-     return(NULL)
+  #  if (is.null(File))
+   #  return(NULL)
     
     output$Original <- renderText("Original")
     output$Phase1 <- renderText("Phase 1")
     output$Phase2 <- renderText("Phase 2")
     output$Phase3 <- renderText("Phase 3")
        
-    if (length(input$upload$datapath))
-      image <- image_read(input$upload$datapath)
+#    if (length(input$upload$datapath))
+ #     image <- image_read(input$upload$datapath)
     
+    if (is.null(input$imageLink)) return(NULL)
+    
+  #  if (length(input$imageLink))
+
+    tryCatch({
+      image <- image_read(input$imageLink)
+
+      
     output$img1 <- renderImage({
       tmpfile <- image %>%
       image_resize("200x200!") %>%
@@ -47,41 +56,41 @@ server <- function(input, output, session) {
       list(src = tmpfile, contentType = "image/jpeg")
     })
     
-   # output$img2 <- renderImage({
+    output$img2 <- renderImage({
       # Numeric operators
-    #  tmpfile <- image %>%
-     #   image_resize("28x28!") %>%
-      #  image_resize( geometry_size_pixels(200)) %>%
-       # image_write(tempfile(fileext='jpg'), format = 'jpg')
+      tmpfile <- image %>%
+        image_resize("28x28!") %>%
+        image_resize( geometry_size_pixels(200)) %>%
+        image_write(tempfile(fileext='jpg'), format = 'jpg')
       
-      # Return a list
-      #list(src = tmpfile, contentType = "image/jpeg")
-  #  })
+       #Return a list
+      list(src = tmpfile, contentType = "image/jpeg")
+    })
     
-  #  output$img3 <- renderImage({
+    output$img3 <- renderImage({
       # Numeric operators
-  #    tmpfile <- image %>%
-    #    image_resize("28x28!") %>%
-    #    image_resize( geometry_size_pixels(200)) %>%
-    #    image_convert(type = 'grayscale') %>%
-    #    image_write(tempfile(fileext='jpg'), format = 'jpg')
+      tmpfile <- image %>%
+        image_resize("28x28!") %>%
+        image_resize( geometry_size_pixels(200)) %>%
+        image_convert(type = 'grayscale') %>%
+        image_write(tempfile(fileext='jpg'), format = 'jpg')
       
       # Return a list
-     # list(src = tmpfile, contentType = "image/jpeg")
-  #  })
+      list(src = tmpfile, contentType = "image/jpeg")
+    })
     
-  #  output$img4 <- renderImage({
+    output$img4 <- renderImage({
       # Numeric operators
-   #   tmpfile <- image %>%
-    #    image_resize("28x28!") %>%
-     #   image_resize( geometry_size_pixels(200)) %>%
-      #  image_convert(type = 'grayscale') %>%
-       # image_negate() %>%
-        #image_write(tempfile(fileext='jpg'), format = 'jpg')
+      tmpfile <- image %>%
+        image_resize("28x28!") %>%
+        image_resize( geometry_size_pixels(200)) %>%
+        image_convert(type = 'grayscale') %>%
+        image_negate() %>%
+        image_write(tempfile(fileext='jpg'), format = 'jpg')
       
       # Return a list
-     # list(src = tmpfile, contentType = "image/jpeg")
-    #})
+      list(src = tmpfile, contentType = "image/jpeg")
+    })
     
     imgAnalysis <<- image %>% 
     image_resize( "28x28!") %>%
@@ -91,7 +100,13 @@ server <- function(input, output, session) {
     
     imgAnalysis <<- imgAnalysis/255
     dim(imgAnalysis) <<- c(1, 28, 28, 1)
-    
+    dataLoaded <<- 1
+    },
+    error = function(e) {
+      output$PredictedLabel <- renderText("Link not compatible. Image loading error.") 
+      dataLoaded <<- 0
+      return(NULL)
+    })
     output$Predicted <- renderText("")  
   })
 }
