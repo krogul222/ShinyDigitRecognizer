@@ -7,8 +7,8 @@ server <- function(input, output, session) {
   library(keras)
 #  library(tools)
   output$keepAlive <- renderText({
-    #req(input$count)
-    #paste("keep alive ", input$count)
+    req(input$count)
+    paste("keep alive ", input$count)
   })
 
   model <- load_model_hdf5('digitrecognizer30epochs.h5')
